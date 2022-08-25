@@ -1,3 +1,7 @@
+// its make a favourites meal array if its not exist in local storage
+if (localStorage.getItem("favouritesList") == null) {
+    localStorage.setItem("favouritesList", JSON.stringify([]));
+}
 // its fetch meals from api and return it
 async function fetchMealsFromApi(url,value) {
     const response=await fetch(`${url+value}`);
@@ -15,7 +19,7 @@ function showMealList(){
     let html = "";
     let meals=fetchMealsFromApi(url,inputValue);
     meals.then(data=>{
-        if (data.meals) {
+        if(data.meals) {
             data.meals.forEach((element) => {
                 let isFav=false;
                 for (let index = 0; index < arr.length; index++) {
@@ -23,7 +27,7 @@ function showMealList(){
                         isFav=true;
                     }
                 }
-                if (isFav) {
+                if(isFav) {
                     html += `
                 <div id="card" class="card mb-3" style="width: 20rem;">
                     <img src="${element.strMealThumb}" class="card-img-top" alt="...">
@@ -129,7 +133,7 @@ async function showFavMealList() {
             </div>
             `;
     } else {
-        for (let index = 0; index < arr.length; index++) {
+        for(let index = 0; index < arr.length; index++) {
             await fetchMealsFromApi(url,arr[index]).then(data=>{
                 html += `
                 <div id="card" class="card mb-3" style="width: 20rem;">
@@ -163,7 +167,7 @@ function addRemoveToFavList(id) {
             contain=true;
         }
     }
-    if (contain) {
+    if(contain) {
         let number = arr.indexOf(id);
         arr.splice(number, 1);
         alert("your meal removed from your favourites list");
